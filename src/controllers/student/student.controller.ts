@@ -1,10 +1,18 @@
-import { StudentService } from './student.service';
 /* eslint-disable prettier/prettier */
+import { StudentService } from './student.service';
 import { FindStudentResponseDto } from './dto/student.dto';
 import { StudentResponseDto } from './dto/student.dto';
 import { UpdateStudentDto } from './dto/student.dto';
 import { CreateStudentDto } from './dto/student.dto';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 
 @Controller('students')
 export class StudentController {
@@ -19,7 +27,7 @@ export class StudentController {
   @Get('/:studentId') // get student by id
   // Param decorator access parameter from the url
   getStudentById(
-    @Param('studentId') studentId: string,
+    @Param('studentId', new ParseUUIDPipe()) studentId: string,
   ): FindStudentResponseDto {
     // console.log(studentId);
     // return `This action returns a specific student of ${studentId}`;
@@ -38,7 +46,7 @@ export class StudentController {
 
   @Put('/:studentId') // update student
   updateStudent(
-    @Param('studentId') studentId: string,
+    @Param('studentId', new ParseUUIDPipe()) studentId: string,
     @Body() body: UpdateStudentDto,
   ): StudentResponseDto {
     // return `This action updates a student with ID of ${studentId} with data of ${JSON.stringify(

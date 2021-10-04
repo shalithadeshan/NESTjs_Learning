@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { TeacherService } from './teacher.service';
 import { FindTeacherResponseDto } from './dto/teacher.dto';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
 
 @Controller('/teachers')
 export class TeacherController {
@@ -14,7 +14,7 @@ export class TeacherController {
 
   @Get('/:teacherId')
   getTeacherById(
-    @Param('teacherId') teacherId: string,
+    @Param('teacherId', new ParseUUIDPipe()) teacherId: string,
   ): FindTeacherResponseDto {
     // return `Single Teacher with ID of ${teacherId}`;
     return this.teacherService.getTeacherById(teacherId);
